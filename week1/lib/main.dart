@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:week1/shared/page_wrap.dart';
+import 'package:week1/tester_pages/login.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
         accentColor: Color(0xfffbb034),
         primaryColor: Color(0xfffbb034),
       ),
-      home: PageWrap(name: "LOGIN", child: Container(height: 500,width: 900,color: Colors.red,)),
+      home: LoginPage()
     );
   }
 }

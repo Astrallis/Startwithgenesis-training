@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "21894517427",
+    "firebase_url": "https://week1-auth.firebaseio.com",
+    "project_id": "week1-auth",
+    "storage_bucket": "week1-auth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21894517427:android:a12a29e9221a571cd156c6",
+        "android_client_info": {
+          "package_name": "com.example.week1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21894517427-ike18kqr2c9kv2i32iif4t8m97mttic3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl2qLHEJ2baZlrjFKGC8e92Cub7ypQyWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21894517427-ike18kqr2c9kv2i32iif4t8m97mttic3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

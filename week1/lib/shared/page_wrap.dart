@@ -39,8 +39,9 @@ class PageWrap extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       height: 55,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0,
+                        padding: const EdgeInsets.only(
+                          left: 15.0,
+                          right:10,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
