@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:week1/presentation/forgot_password.dart';
 import 'package:week1/presentation/login_base_page.dart';
 import 'package:week1/services/userManagement.dart';
 
@@ -68,15 +69,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             SizedBox(height: 15),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: Text(
-                "Forgot Password?",
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFFFBB034),
-                    fontWeight: FontWeight.w600),
+            GestureDetector(
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword())),
+                          child: Container(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: Text(
+                  "Forgot Password?",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Color(0xFFFBB034),
+                      fontWeight: FontWeight.w600),
+                ),
               ),
             ),
             SizedBox(height: 15),

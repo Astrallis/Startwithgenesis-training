@@ -41,7 +41,7 @@ class _SignedInState extends State<SignedIn> {
     print(user.fullName);
     getUser().then((value) => setState(() {
           user = value;
-          print(user.fullName);
+          print(user.imgUrl);
         }));
     // TODO: implement initState
   }
@@ -51,30 +51,34 @@ class _SignedInState extends State<SignedIn> {
     return Scaffold(
       body: user.fullName == null
           ? CircularProgressIndicator()
-          : Column(
-              children: [
-                Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                    children: [
-                      Text(user.fullName),
-                      Text(user.email),
-                      Text(user.mobile),
-                      Image(
-                        image: user.imgUrl.compareTo("empty") == 0
-                            ? NetworkImage(
-                                "https://irishrsa.ie/wp-content/uploads/2017/03/default-avatar-300x300.png")
-                            : NetworkImage(user.imgUrl),
-                      )
-                    ],
+          : Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: Column(
+                      children: [
+                        Text(user.fullName),
+                        Text(user.email),
+                        Text(user.mobile),
+                        Container(height: 200,width: 200, decoration: BoxDecoration(shape: BoxShape.circle,image: DecorationImage(image: user.imgUrl.compareTo("empty") == 0
+                              ? NetworkImage(
+                                  "https://irishrsa.ie/wp-content/uploads/2017/03/default-avatar-300x300.png")
+                              : NetworkImage(user.imgUrl), fit: BoxFit.cover
+                        ))),
+                      ],
+                    ),
                   ),
-                ),
-                RaisedButton(
-                  onPressed: _logOut,
-                  child: Text("LogOut"),
-                ),
-              ],
-            ),
+                  RaisedButton(
+                    onPressed: _logOut,
+                    child: Text("LogOut"),
+                  ),
+                ],
+              ),
+          ),
     );
   }
 }

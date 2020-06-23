@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:week1/presentation/forgot_password.dart';
+import 'package:week1/presentation/profile_pic_screen.dart';
 import 'package:week1/presentation/sign_in_success.dart';
 import 'package:week1/presentation/sign_up.dart';
 import 'package:week1/shared/page_wrap.dart';

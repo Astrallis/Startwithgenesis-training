@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:week1/enums/userRole.dart';
 import 'package:week1/models/user_model.dart';
+import 'package:week1/presentation/profile_pic_screen.dart';
 import 'package:week1/presentation/sign_in_success.dart';
 import 'package:week1/services/userManagement.dart';
 import 'package:week1/shared/page_wrap.dart';
@@ -26,27 +27,8 @@ class _SignUpState extends State<SignUp> {
         email: emailController.text,
         mobile: phoneController.text,
         userRole: UserRole.DEFAULT_USER);
-    FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: _user.email, password: passController.text)
-        .then((signedInUser) {
-      UserManagement().storeNewUser(signedInUser, context, userData: _user);
-      Fluttertoast.showToast(
-          msg: "User Account Created",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.TOP,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    }).catchError((onError) => Fluttertoast.showToast(
-            msg: onError.message,
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.TOP,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0));
+    print("Sign up page print "+ _user.fullName);
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileUpdate(_user, passController.text,)));
   }
 
   @override

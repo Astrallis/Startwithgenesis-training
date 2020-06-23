@@ -12,7 +12,7 @@ class UserManagement {
     prefs.setString("Full Name", userData.fullName);
     prefs.setString("Email", userData.email);
     prefs.setString("Mobile", userData.mobile);
-    prefs.setString("Image URL", "empty");
+    prefs.setString("Image URL", userData.imgUrl);
     print("Storage Completed");
     return true;
   }

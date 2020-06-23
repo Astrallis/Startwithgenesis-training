@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:week1/shared/page_wrap.dart';
 
@@ -8,6 +9,12 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   TextEditingController emailController = new TextEditingController();
+
+  Future passwordReset() {
+    return FirebaseAuth.instance
+        .sendPasswordResetEmail(email: emailController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return PageWrap(
@@ -41,20 +48,25 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   SizedBox(
                     height: 80,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xFFFBB034),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      child: Text(
-                        "Proceed",
-                        style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () {
+                      passwordReset().then((value) => print("email gaya"));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFBB034),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        child: Text(
+                          "Proceed",
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   )
