@@ -27,8 +27,17 @@ class _SignUpState extends State<SignUp> {
         email: emailController.text,
         mobile: phoneController.text,
         userRole: UserRole.DEFAULT_USER);
-    print("Sign up page print "+ _user.fullName);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileUpdate(_user, passController.text,)));
+    print("Sign up page print " + _user.fullName);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProfileUpdate(
+          _user,
+          passController.text,
+          false
+        ),
+      ),
+    );
   }
 
   @override

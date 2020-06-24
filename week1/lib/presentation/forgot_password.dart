@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:week1/services/userManagement.dart';
 import 'package:week1/shared/page_wrap.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -9,11 +9,6 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   TextEditingController emailController = new TextEditingController();
-
-  Future passwordReset() {
-    return FirebaseAuth.instance
-        .sendPasswordResetEmail(email: emailController.text);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +45,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      passwordReset().then((value) => print("email gaya"));
+                      UserManagement().passwordResetEmail(
+                          emailController.text.trim(), context);
                     },
                     child: Container(
                       decoration: BoxDecoration(

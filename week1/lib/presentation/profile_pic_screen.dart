@@ -1,23 +1,29 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:week1/main.dart';
 import 'package:week1/models/user_model.dart';
 import 'package:week1/services/userManagement.dart';
 import 'package:week1/shared/page_wrap.dart';
 
 class ProfileUpdate extends StatefulWidget {
   UserModel user;
+  bool isMobile;
   String password;
-  ProfileUpdate(UserModel user, String password){
-    this.user =user;
-    this.password =password;
+  ProfileUpdate(UserModel user, String password, bool isMobile) {
+    this.user = user;
+    this.password = password;
+    this.isMobile = isMobile;
   }
   @override
-  _ProfileUpdateState createState() => _ProfileUpdateState(user, password);
+  _ProfileUpdateState createState() =>
+      _ProfileUpdateState(user, password, isMobile);
 }
 
 class _ProfileUpdateState extends State<ProfileUpdate> {
@@ -25,33 +31,45 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
   TextEditingController nameController = new TextEditingController();
   String password;
   UserModel user;
-  _ProfileUpdateState(UserModel user, String password){
+  bool isMobile;
+  _ProfileUpdateState(UserModel user, String password, bool isMobile) {
     this.user = user;
     this.password = password;
+    this.isMobile = isMobile;
   }
   File img;
 
-  // FirebaseAuth.instance
-  //       .createUserWithEmailAndPassword(
-  //           email: _user.email, password: passController.text)
-  //       .then((signedInUser) {
-  //     UserManagement().storeNewUser(signedInUser, context, userData: _user);
-  //     Fluttertoast.showToast(
-  //         msg: "User Account Created",
-  //         toastLength: Toast.LENGTH_LONG,
-  //         gravity: ToastGravity.TOP,
-  //         timeInSecForIosWeb: 1,
-  //         backgroundColor: Colors.green,
-  //         textColor: Colors.white,
-  //         fontSize: 16.0);
-  //   }).catchError((onError) => Fluttertoast.showToast(
-  //           msg: onError.message,
-  //           toastLength: Toast.LENGTH_LONG,
-  //           gravity: ToastGravity.TOP,
-  //           timeInSecForIosWeb: 1,
-  //           backgroundColor: Colors.red,
-  //           textColor: Colors.white,
-  //           fontSize: 16.0));
+  _signUpMobile(UserModel user) async {
+    user.email = emailController.text;
+    user.fullName = nameController.text;
+    if (img != null) {
+      print("in if");
+      final StorageReference storageRef =
+          FirebaseStorage.instance.ref().child(password);
+      final StorageUploadTask uploadTask = storageRef.putFile(img);
+      final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+      final String url = (await downloadUrl.ref.getDownloadURL());
+      print(url + " upload ho gya");
+      user.imgUrl = url;
+    }
+    Firestore.instance.collection("/users").document(password).setData({
+      "email": user.email,
+      "name": user.fullName,
+      "mobile": user.mobile,
+      "img": user.imgUrl,
+    }).then((value) async {
+      print("Storage Started");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool("Signed In", true);
+      prefs.setString("Full Name", user.fullName);
+      prefs.setString("Email", user.email);
+      prefs.setString("Mobile", user.mobile);
+      prefs.setString("Image URL", user.imgUrl);
+      print("Storage Completed");
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => MyApp()));
+    });
+  }
 
   _signUp(UserModel user) async {
     print(user.fullName);
@@ -62,15 +80,18 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
       final StorageUploadTask uploadTask = storageRef.putFile(img);
       final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
       final String url = (await downloadUrl.ref.getDownloadURL());
-      print(url+" upload ho gya");
+      print(url + " upload ho gya");
       user.imgUrl = url;
     }
-      print("if paar");
+    print("if paar");
+    print(user.email + widget.password);
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(
             email: user.email, password: widget.password)
         .then((signedInUser) {
+      print("Store karne jaa rhe ");
       UserManagement().storeNewUser(signedInUser, context, userData: user);
+      print("Store kar aaye");
       Fluttertoast.showToast(
           msg: "User Account Created",
           toastLength: Toast.LENGTH_LONG,
@@ -138,9 +159,9 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
 
   @override
   void initState() {
-    print("Sign up page print "+ user.fullName);
-    emailController.text = user.email == null? "": user.email;
-    nameController.text = user.fullName == null? "": user.fullName; // TODO: implement initState
+    emailController.text = user.email == null ? "" : user.email;
+    nameController.text =
+        user.fullName == null ? "" : user.fullName; // TODO: implement initState
     super.initState();
   }
 
@@ -201,7 +222,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                     height: 20,
                   ),
                   GestureDetector(
-                    onTap: () => _signUp(user),
+                    onTap: () => isMobile ? _signUpMobile(user) : _signUp(user),
                     child: Container(
                       decoration: BoxDecoration(
                           color: Color(0xFFFBB034),
