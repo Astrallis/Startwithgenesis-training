@@ -41,14 +41,17 @@ class PageWrap extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(
                           left: 15.0,
-                          right:10,
+                          right: 10,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
+                            GestureDetector(
+                              onTap: () => Navigator.pop(context),
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ),
                             ),
                             Text(
                               name,
@@ -79,4 +82,3 @@ class PageWrap extends StatelessWidget {
     );
   }
 }
-

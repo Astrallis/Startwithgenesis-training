@@ -19,6 +19,42 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
   bool obscure;
+
+  loginWithEmailPassword( context ,{String email, String pass}) {
+    Fluttertoast.showToast(
+        msg: "Signing in",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.yellow,
+        textColor: Colors.white,
+        fontSize: 16.0);
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: pass)
+        .then((user) => {
+              UserManagement().getUser(user.user.uid, context),
+              Fluttertoast.showToast(
+                  msg: "Sign in Successfull",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.TOP,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.green,
+                  textColor: Colors.white,
+                  fontSize: 16.0),
+            })
+        .catchError((e) => {
+          setState((){isLoading = false;}),
+              Fluttertoast.showToast(
+                  msg: e.message,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.TOP,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0),
+            });
+  }
+
   @override
   void initState() {
     isLoading = false;
@@ -119,8 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                           setState(() {
                             isLoading = true;
                           });
-                          UserManagement()
-                              .loginWithEmailPassword(context,
+                          loginWithEmailPassword(context,
                                   email: emailController.text,
                                   pass: passController.text)
                               .then(() => setState(() {

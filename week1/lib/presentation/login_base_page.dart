@@ -1,8 +1,6 @@
 import 'dart:ui';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:week1/models/user_model.dart';
 import 'package:week1/services/userManagement.dart';
 import 'package:week1/shared/page_wrap.dart';
 import 'package:week1/presentation/sign_up.dart';
@@ -10,10 +8,7 @@ import 'package:week1/presentation/sign_up.dart';
 class LoginBasePage extends StatefulWidget {
   final Widget topCardContent;
   final bool isOtp;
-  LoginBasePage({
-    @required this.topCardContent,
-    this.isOtp = false
-  });
+  LoginBasePage({@required this.topCardContent, this.isOtp = false});
   @override
   _LoginBasePageState createState() => _LoginBasePageState();
 }
@@ -22,35 +17,10 @@ class _LoginBasePageState extends State<LoginBasePage> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
 
-  Future<String> signInWithGoogle() async {
-  final GoogleSignInAccount googleSignInAccount = await GoogleSignIn().signIn();
-  final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
-
-  final AuthCredential credential = GoogleAuthProvider.getCredential(
-    accessToken: googleSignInAuthentication.accessToken,
-    idToken: googleSignInAuthentication.idToken,
-  );
-
-  final AuthResult authResult = await FirebaseAuth.instance.signInWithCredential(credential);
-  final FirebaseUser user = authResult.user;
-  print(user.displayName+" "+user.email);
-  assert(!user.isAnonymous);
-  assert(await user.getIdToken() != null);
-
-  final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-  assert(user.uid == currentUser.uid);
-    UserModel _user =new UserModel(fullName: user.displayName, email: user.email, imgUrl: user.photoUrl, mobile: user.phoneNumber);
-    UserManagement().storeNewUserViaGmail(context, userData: _user);
-    print("New User Created");
- 
-  return 'signInWithGoogle succeeded: $user';
-}
-  
   @override
   Widget build(BuildContext context) {
     return PageWrap(
-      name: widget.isOtp?"OTP VERIFICATION":"LOGIN",
+      name: widget.isOtp ? "OTP VERIFICATION" : "LOGIN",
       child: Column(
         children: [
           ClipPath(
@@ -61,8 +31,7 @@ class _LoginBasePageState extends State<LoginBasePage> {
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(30)),
               ),
-              child:  widget.topCardContent
-              
+              child: widget.topCardContent,
             ),
           ),
           ClipPath(
@@ -104,8 +73,8 @@ class _LoginBasePageState extends State<LoginBasePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            onTap:()=> GoogleSignIn().signOut(),
-                                                      child: Image(
+                            onTap: () => GoogleSignIn().signOut(),
+                            child: Image(
                               image: ExactAssetImage("assets/facebook.png"),
                             ),
                           ),
@@ -113,10 +82,8 @@ class _LoginBasePageState extends State<LoginBasePage> {
                             width: 7,
                           ),
                           GestureDetector(
-                            onTap:() => 
-                            signInWithGoogle(),
-                            
-                                                      child: Image(
+                            onTap: () => UserManagement().signInWithGoogle(context),
+                            child: Image(
                               image: ExactAssetImage("assets/google.png"),
                             ),
                           )
@@ -133,27 +100,28 @@ class _LoginBasePageState extends State<LoginBasePage> {
           Container(
             width: double.maxFinite,
             height: 20,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Don't have an account? ",
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Don't have an account? ",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16)),
+                GestureDetector(
+                  onTap: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignUp())),
+                  child: Text("Click here to Sign up",
+                      overflow: TextOverflow.fade,
                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16)),
-                  GestureDetector(
-                        onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUp())),
-                        child: Text("Click here to Sign up",
-                        overflow: TextOverflow.fade,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                          decoration: TextDecoration.underline,
-                        )),
-                  )
-                ],
-              ),
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                        decoration: TextDecoration.underline,
+                      )),
+                )
+              ],
+            ),
           )
         ],
       ),
