@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passController = new TextEditingController();
   bool obscure;
 
-  loginWithEmailPassword( context ,{String email, String pass}) {
+  loginWithEmailPassword(context, {String email, String pass}) {
     Fluttertoast.showToast(
         msg: "Signing in",
         toastLength: Toast.LENGTH_SHORT,
@@ -43,7 +43,9 @@ class _LoginPageState extends State<LoginPage> {
                   fontSize: 16.0),
             })
         .catchError((e) => {
-          setState((){isLoading = false;}),
+              setState(() {
+                isLoading = false;
+              }),
               Fluttertoast.showToast(
                   msg: e.message,
                   toastLength: Toast.LENGTH_SHORT,
@@ -122,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 15),
                 GestureDetector(
-                  onTap: () => Navigator.pushReplacement(context,
+                  onTap: () => Navigator.push(context,
                       MaterialPageRoute(builder: (context) => MobileLogin())),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.7,
@@ -156,15 +158,13 @@ class _LoginPageState extends State<LoginPage> {
                             isLoading = true;
                           });
                           loginWithEmailPassword(context,
-                                  email: emailController.text,
+                                  email: emailController.text.trim(),
                                   pass: passController.text)
                               .then(() => setState(() {
                                     isLoading = false;
                                   }));
-                          
                         }
                       },
-                      
                       backgroundColor: Color(0xFFFBB034),
                       child: Icon(Icons.arrow_forward_ios, color: Colors.white),
                     ),
@@ -188,5 +188,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-// Firestore.instance.collection("/users").document("Vk7diwQXumYxizUJIuvXcMElF7J2").get().then((doc)=>print(doc.data));

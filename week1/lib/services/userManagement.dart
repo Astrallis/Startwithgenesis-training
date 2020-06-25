@@ -50,8 +50,7 @@ class UserManagement {
     return true;
   }
 
-  // getUser(userId, context) => print(Firestore.instance.collection("/users").document(userId).get());
-
+  //get user from database
   getUser(userId, context) =>
       Firestore.instance.collection("/users").document(userId).get().then(
             (doc) => storeDataForPersistanceFromLogin(doc)
@@ -63,9 +62,12 @@ class UserManagement {
                     ),
                   ),
                 )
-                .catchError((onError) => print(onError)),
+                .catchError(
+                  (onError) => print(onError),
+                ),
           );
 
+  //Store user in data base
   storeNewUser(user, context, {userData, bool isGmail = false}) =>
       Firestore.instance
           .collection("/users")
@@ -77,12 +79,20 @@ class UserManagement {
             "img": userData.imgUrl,
           })
           .then((value) => {
-                storeDataForPersistance(userData).then((value) =>
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => SignedIn())))
+                storeDataForPersistance(userData).then(
+                  (value) => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SignedIn(),
+                    ),
+                  ),
+                ),
               })
-          .catchError((onError) => print(onError));
+          .catchError(
+            (onError) => print(onError),
+          );
 
+  //store new user via gmail
   storeNewUserViaGmail(context, {userData}) => Firestore.instance
       .collection("/users")
       .document(userData.email)
@@ -93,17 +103,23 @@ class UserManagement {
         "img": userData.imgUrl,
       })
       .then((value) => {
-            storeDataForPersistance(userData).then((value) =>
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => SignedIn())))
+            storeDataForPersistance(userData).then(
+              (value) => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SignedIn(),
+                ),
+              ),
+            ),
           })
-      .catchError((onError) => print(onError));
+      .catchError(
+        (onError) => print(onError),
+      );
 
- 
+  //sign in with google
   signInWithGoogle(context) async {
     Fluttertoast.showToast(
-        msg:
-            "Signing in",
+        msg: "Signing in",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
         timeInSecForIosWeb: 1,
@@ -114,19 +130,16 @@ class UserManagement {
         await GoogleSignIn().signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
-
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
-
     final AuthResult authResult =
         await FirebaseAuth.instance.signInWithCredential(credential);
     final FirebaseUser user = authResult.user;
     print(user.displayName + " " + user.email);
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
-
     final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
     assert(user.uid == currentUser.uid);
     UserModel _user = new UserModel(
@@ -135,27 +148,38 @@ class UserManagement {
         imgUrl: user.photoUrl,
         mobile: user.phoneNumber);
     storeNewUserViaGmail(context, userData: _user)
-        .then(() => Fluttertoast.showToast(
-            msg: "Sign in successfull",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0))
-        .catchError((e) => Fluttertoast.showToast(
-            msg: e.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0));
-
+        .then(
+          () => Fluttertoast.showToast(
+              msg: "Sign in successfull",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.TOP,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 16.0),
+        )
+        .catchError(
+          (e) => Fluttertoast.showToast(
+              msg: e.message,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.TOP,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 16.0),
+        );
     return 'signInWithGoogle succeeded: $user';
   }
 
   loginUserMobile(String phone, BuildContext context) async {
+    Fluttertoast.showToast(
+        msg: "Sending OTP For verification",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.yellow,
+        textColor: Colors.white,
+        fontSize: 16.0);
     FirebaseAuth _auth = FirebaseAuth.instance;
     _auth.verifyPhoneNumber(
         phoneNumber: phone,
@@ -171,8 +195,8 @@ class UserManagement {
               backgroundColor: Colors.yellow,
               textColor: Colors.white,
               fontSize: 16.0);
-
-          if (user != null) {
+          if (user != null)
+           {
             Fluttertoast.showToast(
                 msg:
                     "User Signed in Via Auto Auth, Please Enter your details to proceed",
@@ -182,24 +206,25 @@ class UserManagement {
                 backgroundColor: Colors.green,
                 textColor: Colors.white,
                 fontSize: 16.0);
-            print(user.uid);
-
             final snapShot = await Firestore.instance
                 .collection('users')
                 .document(user.uid)
                 .get();
-
-            if (snapShot == null || !snapShot.exists) {
+            if (snapShot == null || !snapShot.exists)
+            {
               UserModel _user = UserModel(mobile: phone);
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ProfileUpdate(_user, user.uid, true)));
-            } else {
-              getUser(user.uid, context);
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfileUpdate(_user, user.uid, true),
+                ),
+              );
             }
-          } else {
+            else
+              getUser(user.uid, context);
+          }
+          else 
+          {
             Fluttertoast.showToast(
                 msg: "Auto Auth Failed, Try entering the OTP Manually",
                 toastLength: Toast.LENGTH_SHORT,
@@ -215,9 +240,11 @@ class UserManagement {
         },
         codeSent: (String verificationId, [int forceResendingToken]) {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => OtpScreen(verificationId, phone)));
+            context,
+            MaterialPageRoute(
+              builder: (context) => OtpScreen(verificationId, phone),
+            ),
+          );
         },
         codeAutoRetrievalTimeout: null);
   }
@@ -226,16 +253,20 @@ class UserManagement {
     final code = codetext.trim();
     AuthCredential credential = PhoneAuthProvider.getCredential(
         verificationId: verificationId, smsCode: code);
-
-    AuthResult result =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-
+    AuthResult result = await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .catchError((e) => Fluttertoast.showToast(
+            msg: e.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.TOP,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0));
     FirebaseUser user = result.user;
-
     if (user != null) {
       Fluttertoast.showToast(
-          msg:
-              "User Signed in Via Auto Auth, Please Enter your details to proceed",
+          msg: "User Signed in",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.TOP,
           timeInSecForIosWeb: 1,
@@ -243,19 +274,18 @@ class UserManagement {
           textColor: Colors.white,
           fontSize: 16.0);
       print(user.uid);
-
       final snapShot =
           await Firestore.instance.collection('users').document(user.uid).get();
-
       if (snapShot == null || !snapShot.exists) {
         UserModel _user = UserModel(mobile: phone);
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProfileUpdate(_user, user.uid, true)));
-      } else {
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProfileUpdate(_user, user.uid, true),
+          ),
+        );
+      } else
         getUser(user.uid, context);
-      }
     } else {
       Fluttertoast.showToast(
           msg: "Some Error",
@@ -302,6 +332,10 @@ class UserManagement {
     prefs.setString("Image URL", null);
     GoogleSignIn().signOut();
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => MyApp()));
+      context,
+      MaterialPageRoute(
+        builder: (context) => MyApp(),
+      ),
+    );
   }
 }

@@ -13,12 +13,12 @@ class _SignedInState extends State<SignedIn> {
   @override
   void initState() {
     super.initState();
-    setState(() {});
-    print(user.fullName);
-    UserManagement().getUserDataFromPersistance().then((value) => setState(() {
-          user = value;
-          print(user.imgUrl);
-        }));
+    UserManagement().getUserDataFromPersistance().then(
+          (value) => setState(() {
+            user = value;
+            print(user.imgUrl);
+          }),
+        );
     // TODO: implement initState
   }
 
@@ -73,11 +73,18 @@ class _SignedInState extends State<SignedIn> {
                                       image:
                                           ExactAssetImage("assets/logo.png"))),
                             ),
-                            Icon(
-                              Icons.check_circle,
-                              color: Colors.green,
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Icon(
+                                Icons.check_circle,
+                                color: Colors.green,
+                              ),
                             ),
-                            Text("First Challenge Completed")
+                            Text(
+                              "First Challenge Completed",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            )
                           ],
                         ),
                       ),
@@ -133,22 +140,20 @@ class _SignedInState extends State<SignedIn> {
                                         fontSize: 20),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 3.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 3.0),
                                     child: Container(
-                                        width: MediaQuery.of(context).size.width *
-                                            0.45,
-                                        child: Text(
-                                          user.email,
-                                          style: TextStyle(
-                                              color: Colors.black38,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14),
-                                        ),),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.45,
+                                      child: Text(
+                                        user.email,
+                                        style: TextStyle(
+                                            color: Colors.black38,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14),
+                                      ),
+                                    ),
                                   ),
-                                  // Text("+91 "+user.mobile, style: TextStyle(
-                                  //             color: Colors.black12,
-                                  //             fontWeight: FontWeight.bold,
-                                  //             fontSize: 14),),
                                 ],
                               ),
                             ],
@@ -156,25 +161,6 @@ class _SignedInState extends State<SignedIn> {
                         ),
                       ),
                     ),
-                    // Card(
-                    //   clipBehavior: Clip.antiAlias,
-                    //   child: Column(
-                    //     children: [
-
-                    //       Container(
-                    //           height: 200,
-                    //           width: 200,
-                    //           decoration: BoxDecoration(
-                    //               shape: BoxShape.circle,
-                    //               image: DecorationImage(
-                    //                   image: user.imgUrl.compareTo("empty") == 0
-                    //                       ? NetworkImage(
-                    //                           "https://irishrsa.ie/wp-content/uploads/2017/03/default-avatar-300x300.png")
-                    //                       : NetworkImage(user.imgUrl),
-                    //                   fit: BoxFit.cover))),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),

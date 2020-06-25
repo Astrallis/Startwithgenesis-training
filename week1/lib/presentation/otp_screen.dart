@@ -37,20 +37,37 @@ class _OtpScreenState extends State<OtpScreen> {
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Text("We will send you an One Time Password on this no.", textAlign: TextAlign.center ,style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600)),
+            child: Text("We will send you an One Time Password on this no.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.black, fontWeight: FontWeight.w600)),
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Container(
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: Align(
-                alignment: Alignment(1, 1),
-                child: FloatingActionButton(
-                  onPressed: () {UserManagement().otpVerif(phone, codeController.text, verificationId, context);},
-                  backgroundColor: Color(0xFFFBB034),
-                  child: Icon(Icons.arrow_forward_ios, color: Colors.white),
-                ),
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Align(
+              alignment: Alignment(1, 1),
+              child: FloatingActionButton(
+                onPressed: () {
+                  UserManagement()
+                      .otpVerif(
+                          phone, codeController.text, verificationId, context)
+                      .then(() => Fluttertoast.showToast(
+                          msg: "OTP Verification Successfull",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.TOP,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.green,
+                          textColor: Colors.white,
+                          fontSize: 16.0));
+                },
+                backgroundColor: Color(0xFFFBB034),
+                child: Icon(Icons.arrow_forward_ios, color: Colors.white),
               ),
             ),
+          ),
         ],
       ),
     ));

@@ -20,6 +20,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController passController = new TextEditingController();
   TextEditingController passConfController = new TextEditingController();
   bool isChecked;
+  bool obscure1, obscure2;
 
   _createUser() {
     UserModel _user = new UserModel(
@@ -31,17 +32,15 @@ class _SignUpState extends State<SignUp> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ProfileUpdate(
-          _user,
-          passController.text,
-          false
-        ),
+        builder: (context) => ProfileUpdate(_user, passController.text, false),
       ),
     );
   }
 
   @override
   void initState() {
+    obscure1 = true;
+    obscure2 = true;
     isChecked = false; // TODO: implement initState
     super.initState();
   }
@@ -51,14 +50,15 @@ class _SignUpState extends State<SignUp> {
     return PageWrap(
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 10,
-              )
-            ]),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 10,
+            )
+          ],
+        ),
         child: Padding(
           padding: EdgeInsets.all(30),
           child: Column(
@@ -86,6 +86,8 @@ class _SignUpState extends State<SignUp> {
               SizedBox(height: 10),
               Container(
                 child: TextField(
+                  keyboardType: TextInputType.number,
+                  maxLength: 10,
                   controller: phoneController,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.phone),
@@ -96,21 +98,38 @@ class _SignUpState extends State<SignUp> {
               SizedBox(height: 10),
               Container(
                 child: TextField(
-                  obscureText: true,
+                  obscureText: obscure1,
                   controller: passController,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.lock),
                     labelText: "Password",
+                    suffixIcon: GestureDetector(
+                      onTap: () => setState(() {
+                        obscure1 = !obscure1;
+                      }),
+                      child: obscure1
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
+                    ),
                   ),
                 ),
               ),
               SizedBox(height: 10),
               Container(
                 child: TextField(
+                  obscureText: obscure2,
                   controller: passConfController,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.lock),
                     labelText: "Confirm Password",
+                    suffixIcon: GestureDetector(
+                      onTap: () => setState(() {
+                        obscure2 = !obscure2;
+                      }),
+                      child: obscure2
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
+                    ),
                   ),
                 ),
               ),
@@ -139,7 +158,47 @@ class _SignUpState extends State<SignUp> {
                 height: 20,
               ),
               GestureDetector(
-                onTap: _createUser,
+                onTap: () {
+                  if (nameController.text.isEmpty ||
+                      emailController.text.isEmpty ||
+                      phoneController.text.isEmpty ||
+                      passController.text.isEmpty ||
+                      passConfController.text.isEmpty)
+                    Fluttertoast.showToast(
+                        msg: "Please Fill all the details",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.TOP,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  else {
+                    if (isChecked == false)
+                      Fluttertoast.showToast(
+                          msg: "Please check the terms and condition",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.TOP,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.yellow,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    else {
+                      if (passConfController.text != passController.text) {
+                        Fluttertoast.showToast(
+                            msg: "Passwords do not match",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.yellow,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      } 
+                      else {
+                        _createUser();
+                      }
+                    }
+                  }
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     color: Color(0xFFFBB034),
