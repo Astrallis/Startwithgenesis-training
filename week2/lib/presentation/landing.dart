@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:week2/presentation/landing_components/trending.dart';
 
+import 'after_search/search.dart';
 import 'landing_components/category.dart';
 import 'landing_components/featured.dart';
 
@@ -105,18 +106,33 @@ class _LandingState extends State<Landing> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Search " + controller.text + "...", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),),
-                            Container(
-                              decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius: BorderRadius.all(Radius.circular(5))
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 15),
-                                child: Text(
-                                  "YES",
-                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                            Text(
+                              "Search " + controller.text + "...",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SearchComponent(
+                                            search: controller.text,
+                                          ))),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.amber,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5))),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 15),
+                                  child: Text(
+                                    "YES",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600),
+                                  ),
                                 ),
                               ),
                             )

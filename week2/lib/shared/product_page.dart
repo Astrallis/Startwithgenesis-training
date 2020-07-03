@@ -134,7 +134,7 @@ class _ProductPageState extends State<ProductPage> {
                                         ),
                                       ),
                                     ),
-                                itemCount: widget.product.imgUrl.length ),
+                                itemCount: widget.product.imgUrl.length),
                             Align(
                               alignment: Alignment(0, -1),
                               child: Padding(
@@ -144,7 +144,11 @@ class _ProductPageState extends State<ProductPage> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    _circleElement(Icons.arrow_back_ios),
+                                    GestureDetector(
+                                      child:
+                                          _circleElement(Icons.arrow_back_ios),
+                                      onTap: () => Navigator.pop(context),
+                                    ),
                                     Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -404,7 +408,8 @@ class _ProductPageState extends State<ProductPage> {
                 height: 80,
                 color: Color(0xff1b1b1b),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical:13.0, horizontal: 20),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 13.0, horizontal: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -420,7 +425,7 @@ class _ProductPageState extends State<ProductPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height:3),
+                          SizedBox(height: 3),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -438,20 +443,39 @@ class _ProductPageState extends State<ProductPage> {
                               ),
                               Text(
                                 widget.product.rating.toString(),
-                                style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
                               ),
                               Text(
                                 " (${widget.product.ratingCount})",
-                                style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
                               ),
                             ],
                           ),
                         ],
                       ),
-                      Container(decoration: BoxDecoration(color: Colors.amber,borderRadius: BorderRadius.all(Radius.circular(5),),),child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text("BUY NOW",style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
-                      ),)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.amber,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            "BUY NOW",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),

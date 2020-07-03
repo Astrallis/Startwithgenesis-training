@@ -147,15 +147,20 @@ class _CategoryListState extends State<CategoryList> {
                     width: MediaQuery.of(context).size.width / 1.32,
                     height: isColapsed ? 95 : 550,
                     child: ListView.builder(
-                        scrollDirection:
-                            isColapsed ? Axis.horizontal : Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: cl.length,
-                        itemBuilder: (context, index) => GestureDetector(
-                          onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryComponent(category: cl[index]))),
+                      scrollDirection:
+                          isColapsed ? Axis.horizontal : Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: cl.length,
+                      itemBuilder: (context, index) => GestureDetector(
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CategoryComponent(category: cl[index]))),
                           child: isColapsed
-                            ? _colapsedCategoryElement(cl[index])
-                            : _expandedCategoryElement(cl[index])),),
+                              ? _colapsedCategoryElement(cl[index])
+                              : _expandedCategoryElement(cl[index])),
+                    ),
                   );
                 },
               ),

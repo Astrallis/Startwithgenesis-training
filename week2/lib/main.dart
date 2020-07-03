@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:week2/home.dart';
 import 'package:week2/presentation/landing.dart';
 
 class MyApp extends StatefulWidget {
-  
   // Declaring Auth Variables
   @override
   _MyAppState createState() => _MyAppState();

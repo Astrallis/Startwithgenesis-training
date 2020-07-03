@@ -123,12 +123,14 @@ class _TrendingState extends State<Trending> {
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Container(
             height: 120,
-            width: MediaQuery.of(context).size.width-40,
+            width: MediaQuery.of(context).size.width - 40,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               itemCount: productList.length,
-              itemBuilder: (context, index) => ProductCell(product: productList[index],),
+              itemBuilder: (context, index) => ProductCell(
+                product: productList[index],
+              ),
             ),
           ),
         );
