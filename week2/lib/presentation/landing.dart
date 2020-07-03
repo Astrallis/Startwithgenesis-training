@@ -11,6 +11,14 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
+  TextEditingController controller = new TextEditingController();
+  FocusNode focusser;
+  @override
+  void initState() {
+    focusser = new FocusNode(); // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,16 +36,14 @@ class _LandingState extends State<Landing> {
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        child: Icon(
-                          Icons.account_balance,
-                          color: Colors.amber,
-                        ),
-                      ),
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: ExactAssetImage("assets/logo.png"),
+                              fit: BoxFit.cover)),
                     ),
                     Expanded(
                       child: Padding(
@@ -49,24 +55,76 @@ class _LandingState extends State<Landing> {
                               Radius.circular(20),
                             ),
                           ),
-                          // color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 6),
+                            child: TextField(
+                              controller: controller,
+                              onChanged: (value) {
+                                setState(() {});
+                              },
+                              decoration: InputDecoration(
+                                hintText: "Search",
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0x00000000)),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0x00000000)),
+                                ),
+                              ),
+                              focusNode: focusser,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        child: Icon(
-                          Icons.account_balance,
-                          color: Colors.amber,
-                        ),
-                      ),
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(color: Colors.black12, blurRadius: 4)
+                          ]),
+                      child: Icon(Icons.select_all),
                     ),
+                    SizedBox(
+                      width: 2,
+                    )
                   ],
                 ),
               ),
+              focusser.hasFocus && controller.text.length > 0
+                  ? Center(
+                      child: Container(
+                        height: 40,
+                        width: MediaQuery.of(context).size.width - 60,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Search " + controller.text + "...", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),),
+                            Container(
+                              decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.all(Radius.circular(5))
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 15),
+                                child: Text(
+                                  "YES",
+                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  : Container(),
               SizedBox(
                 height: 10,
               ),
