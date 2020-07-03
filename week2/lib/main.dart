@@ -39,6 +39,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'Flutter & GraphQL Demo App',
           theme: ThemeData(
+            fontFamily: "Montserrat",
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),

@@ -17,7 +17,7 @@ class _CategoryListState extends State<CategoryList> {
                                   Category_url
                                   }
                             }""";
-  
+
   List<Category> cl;
   _expandedCategoryElement(Category category) {
     return Padding(
@@ -96,7 +96,7 @@ class _CategoryListState extends State<CategoryList> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white,
@@ -143,7 +143,7 @@ class _CategoryListState extends State<CategoryList> {
                   print(cl);
 
                   return Container(
-                    width: MediaQuery.of(context).size.width / 1.25,
+                    width: MediaQuery.of(context).size.width / 1.32,
                     height: isColapsed ? 95 : 550,
                     child: ListView.builder(
                         scrollDirection:
@@ -157,15 +157,18 @@ class _CategoryListState extends State<CategoryList> {
                 },
               ),
               GestureDetector(
-                  onTap: () => setState(() {
-                        isColapsed = !isColapsed;
-                      }),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
-                    child: Icon(isColapsed
+                onTap: () => setState(() {
+                  isColapsed = !isColapsed;
+                }),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: Icon(
+                    isColapsed
                         ? Icons.keyboard_arrow_down
-                        : Icons.keyboard_arrow_up,),
-                  ),)
+                        : Icons.keyboard_arrow_up,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

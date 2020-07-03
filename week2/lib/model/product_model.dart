@@ -1,8 +1,35 @@
+import 'package:week2/model/review_model.dart';
+import 'package:week2/model/seller_model.dart';
+
 class Product {
   String name;
-  String imgURL;
-  int price;
+  var price;
+  var rating;
+  var ratingCount;
+  String description;
+  List<String> imgUrl;
+  Seller seller;
+  List<String> tags;
+  List<Review> reviews;
 
-  Product({this.name, this.imgURL, this.price});
+  Product(
+      {String name,
+      var price,
+      var rating,
+      var ratingCount,
+      String description,
+      List<String> imgUrl,
+      Seller seller,
+      List<String> tags,
+      List<Review> reviews}) {
+    this.name = name;
+    this.price = price;
+    this.rating = rating;
+    this.ratingCount = ratingCount;
+    this.description = description;
+    this.imgUrl = imgUrl;
+    this.seller = seller;
+    this.tags = tags;
+    this.reviews = reviews;
+  }
 }
-
