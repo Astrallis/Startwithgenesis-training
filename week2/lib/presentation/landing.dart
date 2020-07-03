@@ -82,7 +82,6 @@ class _LandingState extends State<Landing> {
                 ],
               ),
               Trending(),
-              SizedBox(height: 20),
               Row(
                 children: [
                   Text(
