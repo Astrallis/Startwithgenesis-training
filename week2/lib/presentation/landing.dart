@@ -148,21 +148,23 @@ class _LandingState extends State<Landing> {
               SizedBox(height: 20),
               Row(
                 children: [
+                  Icon(Icons.call_missed_outgoing),
+                  SizedBox(width: 5,),
                   Text(
                     "Trending",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Icon(Icons.graphic_eq)
                 ],
               ),
               Trending(),
               Row(
                 children: [
+                  Icon(Icons.card_membership),
+                  SizedBox(width: 5,),
                   Text(
                     "Featured",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Icon(Icons.card_membership)
                 ],
               ),
               Featured()
