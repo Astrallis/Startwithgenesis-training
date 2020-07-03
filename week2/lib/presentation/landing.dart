@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:week2/presentation/landing_components/trending.dart';
 
@@ -16,6 +17,15 @@ class _LandingState extends State<Landing> {
   FocusNode focusser;
   @override
   void initState() {
+    Fluttertoast.showToast(
+        msg: "For Education Purpose Only",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 3,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
     focusser = new FocusNode(); // TODO: implement initState
     super.initState();
   }
