@@ -24,8 +24,8 @@ class _ProductCellState extends State<ProductCell> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 100,
-                width: 100,
+                height: 75,
+                width: 75,
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -45,7 +45,7 @@ class _ProductCellState extends State<ProductCell> {
                   alignment: Alignment(-1, 1),
                   child: Container(
                     height: 30,
-                    width: 80,
+                    width: 60,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(

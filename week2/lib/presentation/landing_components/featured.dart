@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:week2/model/catagory_model.dart';
 import 'package:week2/model/product_model.dart';
 import 'package:week2/model/review_model.dart';
 import 'package:week2/model/seller_model.dart';
@@ -125,7 +126,7 @@ class _FeaturedState extends State<Featured> {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Container(
-            height: 150,
+            height: 120,
             width: MediaQuery.of(context).size.width-40,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,

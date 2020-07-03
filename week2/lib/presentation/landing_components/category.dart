@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:week2/model/catagory_model.dart';
+import 'package:week2/presentation/category_portion/category_nav.dart';
 
 class CategoryList extends StatefulWidget {
   @override
@@ -129,7 +130,7 @@ class _CategoryListState extends State<CategoryList> {
                     return CircularProgressIndicator();
                   }
 
-                  print(result.data['Category']);
+                  print(result.data['Category'][0]['ID']);
                   if (cl.isEmpty) {
                     for (int i = 0; i < result.data['Category'].length; i++) {
                       Category category = Category(
@@ -150,9 +151,11 @@ class _CategoryListState extends State<CategoryList> {
                             isColapsed ? Axis.horizontal : Axis.vertical,
                         shrinkWrap: true,
                         itemCount: cl.length,
-                        itemBuilder: (context, index) => isColapsed
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryComponent(category: cl[index]))),
+                          child: isColapsed
                             ? _colapsedCategoryElement(cl[index])
-                            : _expandedCategoryElement(cl[index])),
+                            : _expandedCategoryElement(cl[index])),),
                   );
                 },
               ),
