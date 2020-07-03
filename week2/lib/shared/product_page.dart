@@ -124,7 +124,7 @@ class _ProductPageState extends State<ProductPage> {
                                         ],
                                         image: DecorationImage(
                                           image: NetworkImage(
-                                            widget.product.imgUrl[index + 1],
+                                            widget.product.imgUrl[index],
                                           ),
                                           fit: BoxFit.cover,
                                         ),
@@ -134,7 +134,7 @@ class _ProductPageState extends State<ProductPage> {
                                         ),
                                       ),
                                     ),
-                                itemCount: widget.product.imgUrl.length - 1),
+                                itemCount: widget.product.imgUrl.length ),
                             Align(
                               alignment: Alignment(0, -1),
                               child: Padding(

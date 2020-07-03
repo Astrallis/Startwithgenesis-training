@@ -3,6 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:week2/presentation/landing_components/trending.dart';
 
 import 'landing_components/category.dart';
+import 'landing_components/featured.dart';
 
 class Landing extends StatefulWidget {
   @override
@@ -80,7 +81,18 @@ class _LandingState extends State<Landing> {
                   Icon(Icons.graphic_eq)
                 ],
               ),
-              Trending()
+              Trending(),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Text(
+                    "Featured",
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                  ),
+                  Icon(Icons.card_membership)
+                ],
+              ),
+              Featured()
             ],
           ),
         ),
