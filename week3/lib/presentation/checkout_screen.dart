@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:week3/models/product_model.dart';
 import 'package:week3/shared/bottom_bar.dart';
+import 'package:flutter/services.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class Checkout extends StatefulWidget {
   Product product;
@@ -12,11 +14,53 @@ class Checkout extends StatefulWidget {
 class _CheckoutState extends State<Checkout> {
   int count;
   int amount;
+  Razorpay _razorpay;
   @override
   void initState() {
     count = 1;
     amount = widget.product.price * count; // TODO: implement initState
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
+
+  void openCheckout() async {
+    var options = {
+      'key': 'rzp_test_u1HODMU6BxEjIk',
+      'amount': amount * 100,
+      'name': 'Sparsh',
+      'description': 'Test',
+      'prefill': {'contact': '', 'email': ''},
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      print("##########ERROR##########" + e);
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    print("########Success########");
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    print("########Error in Payment########");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    print("########Wallet Access######## " + response.walletName);
   }
 
   _counter() {
@@ -234,11 +278,14 @@ class _CheckoutState extends State<Checkout> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Total", style: TextStyle(fontSize: 16),),
+                      Text(
+                        "Total",
+                        style: TextStyle(fontSize: 16),
+                      ),
                       Text(
                         "Rs.$amount.00",
-                        style:
-                            TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 16),
                       ),
                     ],
                   ),
@@ -250,6 +297,7 @@ class _CheckoutState extends State<Checkout> {
             widget.product,
             isCheckout: true,
             price: amount,
+            function: () => openCheckout(),
           )
         ],
       ),

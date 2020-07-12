@@ -92,7 +92,7 @@ class _BottomBarState extends State<BottomBar> {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      widget.isCheckout ? "PAY" : "BUY NOW",
+                      widget.isCheckout ? "PAY NOW" : "BUY NOW",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.w600),
                     ),
