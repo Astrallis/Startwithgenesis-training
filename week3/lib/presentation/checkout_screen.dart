@@ -51,26 +51,45 @@ class _CheckoutState extends State<Checkout> {
       print("##########ERROR##########" + e);
     }
   }
-  void _showDialog({String id}) {
+
+  void _showDialog(int task, {String id}) {
     // flutter defined function
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
-        return Success(color: Colors.green[300], icon: Icons.check_circle, message: "Transaction\nSuccessfull", id: id,);
+        return task == 1
+            ? Success(
+                color: Colors.green[300],
+                icon: Icons.check_circle,
+                message: "Transaction\nSuccessfull",
+                id: id,
+              )
+            : task == 2
+                ? Success(
+                    color: Colors.red,
+                    icon: Icons.cancel,
+                    message: "Transaction\nFailed",
+                  )
+                : Success(
+                    color: Colors.amber,
+                    icon: Icons.account_balance_wallet,
+                    message: "Selected\nExternal Wallet",
+                  );
       },
     );
   }
+
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    _showDialog(id: response.paymentId);
+    _showDialog(1, id: response.paymentId);
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    print("########Error in Payment########");
+    _showDialog(2);
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
-    print("########Wallet Access######## " + response.walletName);
+    _showDialog(3);
   }
 
   _counter() {

@@ -43,10 +43,19 @@ class _SuccessState extends State<Success> {
                   children: [
                     Text(
                       widget.message,
-                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                          textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 10,),
-                    widget.id == null?Container():Text("ID: ${widget.id}", style: TextStyle(fontWeight: FontWeight.w300),),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    widget.id == null
+                        ? Container()
+                        : Text(
+                            "ID: ${widget.id}",
+                            style: TextStyle(fontWeight: FontWeight.w300),
+                          ),
                   ],
                 ),
               ),
@@ -57,8 +66,8 @@ class _SuccessState extends State<Success> {
             child: Container(
               height: 80,
               width: 80,
-              decoration: BoxDecoration(
-                  color: widget.color, shape: BoxShape.circle),
+              decoration:
+                  BoxDecoration(color: widget.color, shape: BoxShape.circle),
               child: Icon(
                 widget.icon,
                 color: Colors.white,
