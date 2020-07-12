@@ -59,19 +59,19 @@ class _CheckoutState extends State<Checkout> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return task == 1
-            ? Success(
+            ? DialogResponses(
                 color: Colors.green[300],
                 icon: Icons.check_circle,
                 message: "Transaction\nSuccessfull",
                 id: id,
               )
             : task == 2
-                ? Success(
+                ? DialogResponses(
                     color: Colors.red,
                     icon: Icons.cancel,
                     message: "Transaction\nFailed",
                   )
-                : Success(
+                : DialogResponses(
                     color: Colors.amber,
                     icon: Icons.account_balance_wallet,
                     message: "Selected\nExternal Wallet",
