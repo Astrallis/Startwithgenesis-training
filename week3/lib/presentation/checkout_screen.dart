@@ -3,6 +3,7 @@ import 'package:week3/models/product_model.dart';
 import 'package:week3/shared/bottom_bar.dart';
 import 'package:flutter/services.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:week3/shared/success_dialogue.dart';
 
 class Checkout extends StatefulWidget {
   Product product;
@@ -50,9 +51,18 @@ class _CheckoutState extends State<Checkout> {
       print("##########ERROR##########" + e);
     }
   }
-
+  void _showDialog({String id}) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return Success(color: Colors.green[300], icon: Icons.check_circle, message: "Transaction\nSuccessfull", id: id,);
+      },
+    );
+  }
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    print("########Success########");
+    _showDialog(id: response.paymentId);
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
